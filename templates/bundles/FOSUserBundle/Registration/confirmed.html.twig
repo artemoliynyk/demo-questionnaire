@@ -1,0 +1,14 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+            <h4>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</h4>
+            {% if targetUrl %}
+                <p><a href="{{ url('index') }}">Back to home page</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock fos_user_content %}
