@@ -6,3 +6,11 @@ fos_user:
     from_email:
         address: "%env(EMAIL_FROM_ADDRESS)%"
         sender_name: "%env(EMAIL_FROM_NAME)%"
+
+    registration:
+        form:
+            type: App\Form\RegistrationFormType
+
+    profile:
+        form:
+            type: App\Form\ProfileFormType

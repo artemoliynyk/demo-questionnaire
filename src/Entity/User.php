@@ -62,7 +62,6 @@ class User extends BaseUser
         $this->username = $this->email;
     }
 
-
     /**
      * @return mixed
      */
@@ -85,6 +84,11 @@ class User extends BaseUser
     public function getLastName()
     {
         return $this->lastName;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole('ROLE_ADMIN');
     }
 
     /**

@@ -1,0 +1,21 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="row">
+    <div class="col-lg-6 offset-lg-3">
+        <div class="fos_user_user_show">
+            <h4>User Profile</h4>
+            <p>
+                <b>Name:</b> {{ user.firstname }} {{ user.lastname }}
+            </p>
+            <p>
+                <b>Email:</b> {{ user.email }}
+            </p>
+            <p>
+                <b>Role:</b> {{ user.admin ? 'Admin' : 'User' }}
+            </p>
+            <p>
+                <a class="btn btn-info" href="{{ url('fos_user_profile_edit') }}">Edit</a>
+            </p>
+        </div>
+    </div>
+</div>

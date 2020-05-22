@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the FOSUserBundle package.
- *
- * (c) FriendsOfSymfony <http://friendsofsymfony.github.com/>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class RegistrationFormType extends AbstractType
+class ProfileFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,19 +20,29 @@ class RegistrationFormType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Last name',
             ])
-            ->add('email', EmailType::class, array('label' => 'form.email', 'translation_domain' => 'FOSUserBundle'))
-            ->add('plainPassword', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'options' => array(
+            ->add('email', EmailType::class,
+                [
+                    'label' => 'form.email',
                     'translation_domain' => 'FOSUserBundle',
-                    'attr' => array(
+                ]
+            )
+            ->add('plainPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'options' => [
+                    'translation_domain' => 'FOSUserBundle',
+                    'attr' => [
                         'autocomplete' => 'new-password',
-                    ),
-                ),
-                'first_options' => array('label' => 'form.password'),
-                'second_options' => array('label' => 'form.password_confirmation'),
+                    ],
+                ],
+                'first_options' => [
+                    'label' => 'form.password',
+                ],
+                'second_options' => [
+                    'label' => 'form.password_confirmation',
+                ],
                 'invalid_message' => 'fos_user.password.mismatch',
-            ))
+                'required' => false,
+            ])
 
             // no username
             ->remove('username')
@@ -50,6 +51,6 @@ class RegistrationFormType extends AbstractType
 
     public function getParent()
     {
-        return \FOS\UserBundle\Form\Type\RegistrationFormType::class;
+        return \FOS\UserBundle\Form\Type\ProfileFormType::class;
     }
 }
