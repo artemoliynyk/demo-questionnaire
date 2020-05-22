@@ -26,6 +26,14 @@
                     </li>
                 </ul>
 
+
+                {% if is_granted("ROLE_ADMIN") %}
+                    <ul class="navbar-nav float-right admin-menu">
+                        <li class="nav-item">
+                            <a class="nav-link {{ active_url('question_index') }}" href="{{ url('question_index') }}">{% trans %}Manage Questions{% endtrans %}</a>
+                        </li>
+                    </ul>
+                {% endif %}
                 <ul class="navbar-nav float-right">
                     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                         <li class="nav-item {{ active_url('fos_user_profile_edit') }}">
