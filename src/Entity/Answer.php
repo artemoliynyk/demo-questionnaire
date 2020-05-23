@@ -4,10 +4,18 @@ namespace App\Entity;
 
 use App\Repository\AnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnswerRepository::class)
+ * @ORM\Table(name="answer", uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="uniq_weight", columns={"weight", "question_id"})})
+ * )
+ * @UniqueEntity(
+ *     fields={"weight", "question"},
+ *     message="Please, make sure all questions has an unique weight"
+ * )
  */
 class Answer
 {
@@ -25,7 +33,7 @@ class Answer
     private $answerText;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", name="weight")
      * @Assert\NotBlank()
      * @Assert\Range(min="0", max="5")
      */
@@ -33,7 +41,7 @@ class Answer
 
     /**
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="question_id", nullable=false, onDelete="CASCADE")
      */
     private $question;
 

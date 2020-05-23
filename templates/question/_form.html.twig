@@ -5,9 +5,8 @@
 
 <button type="button" class="btn btn-success mb-3" id="add-answer">Add answer</button>
 
-{#<div id="question-answers" class="col-md-6" data-prototype="{{ form_widget(form.answers.vars.prototype)|e('html_attr') }}">#}
-
 {{ form_row(form.answers) }}
 
 <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+<br>

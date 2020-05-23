@@ -6,6 +6,8 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
@@ -25,7 +27,8 @@ class Question
     private $questionText;
 
     /**
-     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $answers;
 
@@ -81,5 +84,24 @@ class Question
         }
 
         return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if (2 > $this->getAnswers()->count()) {
+            $context->buildViolation('Please, create at least 2 answers')
+                ->atPath('answers')
+                ->addViolation()
+            ;
+        }
+        elseif ( 6 < $this->getAnswers()->count()) {
+            $context->buildViolation('Only 6 answers are allowed')
+                ->atPath('answers')
+                ->addViolation()
+            ;
+        }
     }
 }

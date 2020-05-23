@@ -1,4 +1,6 @@
 {% block _question_answer_collection_row %}
+
+    {{ form_errors(form) }}
     <div id="question_answers" class="col-md-6" data-prototype="{{ form_widget(form.vars.prototype)|e('html_attr') }}">
         {% for answer in form %}
             {{ form_row(answer) }}
@@ -9,11 +11,15 @@
 
 {% block _question_answer_collection_entry_row %}
     {{ form_widget(form) }}
+    {{ form_errors(form) }}
 {% endblock %}
 
 {% block _question_answer_collection_entry_widget %}
     <div class="card mb-5">
-        <h5 class="card-header">{{ form.vars.label }} {{ (form.vars.name ) }}</h5>
+        <div class="card-header">
+            Answer
+            <button class="answer-remove btn btn-sm btn-danger float-right" type="button">Remove</button>
+        </div>
         <div class="card-body">
             {{ form_row(form.answerText) }}
             {{ form_row(form.weight) }}

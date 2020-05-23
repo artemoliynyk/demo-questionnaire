@@ -16,19 +16,19 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>QuestionText</th>
-                        <th>actions</th>
+                        <th>Question</th>
+                        <th>Answers</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for question in questions %}
                         <tr>
-                            <td>{{ question.id }}</td>
                             <td>{{ question.questionText }}</td>
+                            <td>{{ question.answers.count }}</td>
                             <td>
-                                <a class="btn btn-warning" href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
-                                <a class="btn btn-primary" href="{{ path('question_show', {'id': question.id}) }}">show</a>
+                                <a class="btn btn-warning" href="{{ path('question_edit', {'id': question.id}) }}">Edit</a>
+                                {{ include('question/_delete_form.html.twig') }}
                             </td>
                         </tr>
                     {% else %}

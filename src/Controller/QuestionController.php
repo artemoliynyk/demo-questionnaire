@@ -36,12 +36,19 @@ class QuestionController extends AbstractController
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($question);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($question);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('question_index');
+                $this->addFlash('success', 'Entry created');
+
+                return $this->redirectToRoute('question_index');
+            }
+            else {
+                $this->addFlash('error', 'An error occurred, please check form values');
+            }
         }
 
         return $this->render('question/new.html.twig', [
@@ -68,10 +75,17 @@ class QuestionController extends AbstractController
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('question_index');
+                $this->addFlash('success', 'Changes saved');
+
+                return $this->redirectToRoute('question_edit', ['id' => $question->getId()]);
+            }
+            else {
+                $this->addFlash('error', 'An error occurred, please check form values');
+            }
         }
 
         return $this->render('question/edit.html.twig', [

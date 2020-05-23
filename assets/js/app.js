@@ -2,36 +2,48 @@ import '../scss/app.scss';
 
 require('bootstrap');
 
+var $addBtn;
 $(document).ready(function () {
     var $answersHolder = $('#question_answers');
+    $addBtn = $("#add-answer");
 
-    $("#add-answer").click(function () {
+    $addBtn.click(function () {
         addAnswer($answersHolder);
     });
+
+    initControls($answersHolder, $('button.answer-remove'));
+    checkNewAllowed($answersHolder);
 });
 
-function addAnswer($collectionHolder, $newAnswer) {
-    // Get the data-prototype explained earlier
-    var prototype = $collectionHolder.data('prototype');
+function initControls($collectionHolder, $buttons) {
+    $buttons.on('click', function () {
+        if (confirm('Are you sure want to delete this?')) {
+            $(this).parents('div.card:first').remove();
+            checkNewAllowed($collectionHolder);
+        }
+    });
+}
 
-    console.log(prototype);
+
+function checkNewAllowed($collectionHolder) {
+    var answers = $collectionHolder.find('div.card').length;
+
+    $addBtn.prop('disabled', (5 < answers));
+}
+
+function addAnswer($collectionHolder, $newAnswer) {
+    var prototype = $collectionHolder.data('prototype');
 
     // get the new index
     var index = $collectionHolder.find('div.card').length;
-
     var newForm = prototype;
-    // You need this only if you didn't set 'label' => false in your tags field in TaskType
-    // Replace '__name__label__' in the prototype's HTML to
-    // instead be a number based on how many items we have
-     newForm = newForm.replace(/__name__label__/g, 'Answer');
 
-    // Replace '__name__' in the prototype's HTML to
-    // instead be a number based on how many items we have
     newForm = newForm.replace(/__name__/g, index);
 
-    // increase the index with one for the next item
-    $collectionHolder.data('index', index + 1);
+    let $newForm = $(newForm)
 
-    // Display the form in the page in an li, before the "Add a tag" link li
-    $collectionHolder.append(newForm);
+    initControls($collectionHolder, $newForm.find('button.answer-remove'));
+    $collectionHolder.append($newForm);
+
+    checkNewAllowed($collectionHolder);
 }

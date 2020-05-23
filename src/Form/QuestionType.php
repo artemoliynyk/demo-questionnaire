@@ -19,8 +19,10 @@ class QuestionType extends AbstractType
             ->add('answers', CollectionType::class, [
                 'entry_type' => AnswerType::class,
                 'allow_add' => true,
+                'allow_delete' => true,
                 'block_name' => 'answer_collection',
                 'by_reference' => false,
+                'error_bubbling' => false,
             ])
         ;
     }
