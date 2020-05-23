@@ -32,9 +32,15 @@ class Question
      */
     private $answers;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="quesion")
+     */
+    private $responses;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->responses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,15 +111,11 @@ class Question
         }
     }
 
-    public function getPage(): ?Page
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponses(): Collection
     {
-        return $this->page;
-    }
-
-    public function setPage(?Page $page): self
-    {
-        $this->page = $page;
-
-        return $this;
+        return $this->responses;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,6 +39,11 @@ class User extends BaseUser
     protected $lastName;
 
     /**
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $responses;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -44,6 +51,7 @@ class User extends BaseUser
         parent::__construct();
 
         $this->roles = ['ROLE_USER'];
+        $this->responses = new ArrayCollection();
     }
 
     public function setEmail($email)
@@ -107,5 +115,36 @@ class User extends BaseUser
     public function isAccountNonLocked()
     {
         return $this->enabled;
+    }
+
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
+    }
+
+    public function addResponse(Response $response): self
+    {
+        if (!$this->responses->contains($response)) {
+            $this->responses[] = $response;
+            $response->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponse(Response $response): self
+    {
+        if ($this->responses->contains($response)) {
+            $this->responses->removeElement($response);
+            // set the owning side to null (unless already changed)
+            if ($response->getUser() === $this) {
+                $response->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

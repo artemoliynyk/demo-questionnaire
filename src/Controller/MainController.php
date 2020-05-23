@@ -19,16 +19,4 @@ class MainController extends AbstractController
             'questions' => $questions,
         ]);
     }
-
-    /**
-     * @Route("/survey", name="survey")
-     */
-    public function survey(QuestionRepository $questionRepository)
-    {
-        $questions = $questionRepository->findAll();
-
-        return $this->render('main/index.html.twig', [
-            'questions' => $questions,
-        ]);
-    }
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnswerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,6 +47,21 @@ class Answer
      */
     private $question;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Response::class, mappedBy="answer", orphanRemoval=true)
+     */
+    private $responses;
+
+    public function __toString()
+    {
+        return $this->getAnswerText();
+    }
+
+    public function __construct()
+    {
+        $this->responses = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,5 +101,13 @@ class Answer
         $this->question = $question;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Response[]
+     */
+    public function getResponses(): Collection
+    {
+        return $this->responses;
     }
 }
