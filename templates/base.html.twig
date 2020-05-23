@@ -30,7 +30,7 @@
                 {% if is_granted("ROLE_ADMIN") %}
                     <ul class="navbar-nav float-right admin-menu">
                         <li class="nav-item">
-                            <a class="nav-link {{ active_url('question_index') }}" href="{{ url('question_index') }}">{% trans %}Manage Questions{% endtrans %}</a>
+                            <a class="nav-link {{ active_suburl('question_index') }}" href="{{ url('question_index') }}">{% trans %}Questions{% endtrans %}</a>
                         </li>
                     </ul>
                 {% endif %}

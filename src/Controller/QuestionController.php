@@ -22,8 +22,14 @@ class QuestionController extends AbstractController
      */
     public function index(QuestionRepository $questionRepository): Response
     {
+        $questions = $questionRepository->findAll();
+
+        if (10 > count($questions)) {
+            $this->addFlash('info', 'You need to create 10 questions');
+        }
+
         return $this->render('question/index.html.twig', [
-            'questions' => $questionRepository->findAll(),
+            'questions' => $questions,
         ]);
     }
 
@@ -45,8 +51,7 @@ class QuestionController extends AbstractController
                 $this->addFlash('success', 'Entry created');
 
                 return $this->redirectToRoute('question_index');
-            }
-            else {
+            } else {
                 $this->addFlash('error', 'An error occurred, please check form values');
             }
         }
@@ -82,8 +87,7 @@ class QuestionController extends AbstractController
                 $this->addFlash('success', 'Changes saved');
 
                 return $this->redirectToRoute('question_edit', ['id' => $question->getId()]);
-            }
-            else {
+            } else {
                 $this->addFlash('error', 'An error occurred, please check form values');
             }
         }
