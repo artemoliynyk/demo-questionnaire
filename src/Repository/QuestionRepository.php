@@ -25,7 +25,7 @@ class QuestionRepository extends ServiceEntityRepository
     public function getForPage(int $page)
     {
         $count = 5;
-        $offset = ($page > 1 ? ($page - 1) * $count : 0) ;
+        $offset = ($page > 1 ? ($page - 1) * $count : 0);
 
         $qb = $this->createQueryBuilder('q');
 

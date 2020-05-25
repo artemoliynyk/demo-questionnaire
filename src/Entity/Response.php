@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ResponseRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ResponseRepository::class)
@@ -31,6 +32,8 @@ class Response
     private $question;
 
     /**
+     * @Assert\NotNull()
+     * 
      * @ORM\ManyToOne(targetEntity="App\Entity\Answer", inversedBy="responses")
      * @ORM\JoinColumn(nullable=false)
      */

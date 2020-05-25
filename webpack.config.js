@@ -7,47 +7,48 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-    // directory where compiled assets will be stored
-    .setOutputPath('public/build/')
-    // public path used by the web server to access the output path
-    .setPublicPath('/build')
+// directory where compiled assets will be stored
+.setOutputPath('public/build/')
+// public path used by the web server to access the output path
+.setPublicPath('/build')
 
-    /*
-     * ENTRY CONFIG
-     */
-    .addEntry('app', './assets/js/app.js')
+/*
+ * ENTRY CONFIG
+ */
+.addEntry('app', './assets/js/app.js')
+.addEntry('responses', './assets/js/responses.js')
 
-    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
+// When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
+.splitEntryChunks()
 
-    // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
-    .enableSingleRuntimeChunk()
+// will require an extra script tag for runtime.js
+// but, you probably want this, unless you're building a single-page app
+.enableSingleRuntimeChunk()
 
-    /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
-    .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
-    .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
+/*
+ * FEATURE CONFIG
+ *
+ * Enable & configure other features below. For a full
+ * list of features, see:
+ * https://symfony.com/doc/current/frontend.html#adding-more-features
+ */
+.cleanupOutputBeforeBuild()
+.enableBuildNotifications()
+.enableSourceMaps(!Encore.isProduction())
+// enables hashed filenames (e.g. app.abc123.css)
+.enableVersioning(Encore.isProduction())
 
-    // enables @babel/preset-env polyfills
-    .configureBabelPresetEnv((config) => {
-        config.useBuiltIns = 'usage';
-        config.corejs = 3;
-    })
+// enables @babel/preset-env polyfills
+.configureBabelPresetEnv((config) => {
+    config.useBuiltIns = 'usage';
+    config.corejs = 3;
+})
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
+// enables Sass/SCSS support
+.enableSassLoader()
 
-    // uncomment if you're having problems with a jQuery plugin
-    .autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
+.autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

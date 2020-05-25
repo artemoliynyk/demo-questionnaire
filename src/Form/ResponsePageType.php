@@ -27,6 +27,7 @@ class ResponsePageType extends AbstractType
 
         $builder->add('responses', CollectionType::class, [
             'entry_type' => ResponseType::class,
+            'required' => false,
         ]);
     }
 

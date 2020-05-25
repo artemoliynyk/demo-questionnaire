@@ -45,6 +45,7 @@
                 {{ form.vars.data.question.questionText }}
             </h5>
 
+            {{ form_errors(form.answer) }}
             {{ form_widget(form.answer) }}
         </div>
     </div>

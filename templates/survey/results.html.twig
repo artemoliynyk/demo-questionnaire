@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>var chart_data = {{ chart_data|raw }};</script>
+    <script>var user_responses = {{ user_responses|raw }};</script>
+
+    {{ encore_entry_script_tags('responses') }}
+{% endblock %}
 
 {% block title %}Questionnaire{% endblock %}
 
@@ -8,6 +16,7 @@
         <div class="col">
             <h1>Results</h1>
 
+            <div id="chart-holder"></div>
         </div>
     </div>
 {% endblock %}

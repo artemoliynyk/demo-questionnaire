@@ -59,8 +59,8 @@ class A_InitialFixtures extends Fixture
             $question->setQuestionText($questionText);
 
             shuffle($this->answers);
-            $answersNumber = rand(2, 6);
-            for ($a = 1; $a <= $answersNumber; $a++) {
+            $answersNumber = rand(1, 5);
+            for ($a = 0; $a <= $answersNumber; $a++) {
                 $answer = new Answer();
                 $answer->setAnswerText($this->answers[$a]);
                 $answer->setWeight($a);

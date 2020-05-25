@@ -24,3 +24,10 @@ body {
         margin-right: 1em;
     }
 }
+
+$chartHeight: 350px;
+canvas.chart {
+    //height: $chartHeight;
+    max-height: $chartHeight;
+    min-height: $chartHeight;
+}

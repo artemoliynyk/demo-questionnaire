@@ -55,4 +55,64 @@ class ResponseRepository extends ServiceEntityRepository
 
         return (int) $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function getUserResponses(UserInterface $user)
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb->select('r')
+            ->leftJoin('r.answer', 'a')
+            ->where('r.user = :user')
+            ->setParameters([
+                'user' => $user,
+            ])
+        ;
+
+        $results = $qb->getQuery()->getResult();
+
+        $responses = [];
+        /** @var Response $response */
+        foreach ($results as $response) {
+            $question = $response->getQuestion();
+            $answer = $response->getAnswer();
+
+            $responses[$question->getId()] = $answer->getId();
+        }
+
+        return $responses;
+    }
+
+    public function getResponsesPerQuestion()
+    {
+        $qb = $this->createQueryBuilder('r');
+
+        $qb
+            ->select('r')
+            ->addSelect(
+                $qb->expr()->count('r.answer')
+            )
+            ->groupBy('r.question')
+            ->addGroupBy('r.answer')
+        ;
+
+        $results = $qb->getQuery()->getResult();
+
+        $data = [];
+
+        foreach ($results as $responseData) {
+            /** @var Response $response */
+            $response = $responseData[0];
+
+            $question = $response->getQuestion();
+            $answer = $response->getAnswer();
+
+            $data[$question->getId()]['question'] = $question->getQuestionText();
+            $data[$question->getId()]['answers'][$answer->getId()] = [
+                'text' => $answer->getAnswerText(),
+                'count' => $responseData[1],
+            ];
+        }
+
+        return $data;
+    }
 }

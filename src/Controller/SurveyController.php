@@ -75,10 +75,14 @@ class SurveyController extends AbstractController
     /**
      * @Route("/survey-results", name="survey_results")
      */
-    public function resultsAction()
+    public function resultsAction(ResponseRepository $responseRepository, QuestionRepository $questionRepository)
     {
+        $userResponses = $responseRepository->getUserResponses($this->getUser());
+        $responsesPerQuestion = $responseRepository->getResponsesPerQuestion();
+
         return $this->render('survey/results.html.twig', [
-//            'form' => $form->createView(),
+            'user_responses' => json_encode($userResponses),
+            'chart_data' => json_encode($responsesPerQuestion),
         ]);
     }
 
