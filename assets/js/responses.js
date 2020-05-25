@@ -15,7 +15,7 @@ $(document).ready(function () {
 
         var $qCanvas = $('<canvas class="chart"></canvas>');
 
-        $chartHolder.append($qCanvas);
+        $chartHolder.append($qCanvas).append('<br>');
 
         var title = question.question;
         $.each(question.answers, function (id, answer) {
