@@ -22,6 +22,7 @@ add('shared_files', ['']);
 add('shared_dirs', []);
 
 set('bin/composer', 'composer');
+set('composer_options', '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --dev --optimize-autoloader --no-suggest');
 
 // Writable dirs by web server 
 add('writable_dirs', []);

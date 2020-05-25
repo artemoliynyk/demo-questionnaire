@@ -30,5 +30,5 @@ After installation complete you will need to create database structure, compile 
 
 Application has a demo data generator (implemented with Doctrine Fixtures), to upload demo data run following command:
 ```
-php ./bin/console doctrine:fixtures:load
+php ./bin/console doctrine:fixtures:load -e dev
 ```
