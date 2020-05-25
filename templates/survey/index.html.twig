@@ -1,4 +1,6 @@
 {% extends 'base.html.twig' %}
+{% form_theme form with ['inc/fields.html.twig', 'bootstrap_4_layout.html.twig'] %}
+
 
 {% block title %}Questionnaire{% endblock %}
 
@@ -7,15 +9,10 @@
         <div class="col">
             <h1>Survey</h1>
 
-            {% if 10 <= questions|length %}
-
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button type="submit">OK</button>
-                {{ form_end(form) }}
-            {% else %}
-                <div class="alert alert-primary">Sorry, survey is not ready yet</div>
-            {% endif %}
+            {{ form_start(form) }}
+            {{ form_row(form.responses) }}
+            <button type="submit">OK</button>
+            {{ form_end(form) }}
         </div>
     </div>
 {% endblock %}

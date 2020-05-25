@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Question;
 use App\Entity\Response;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Response|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +21,29 @@ class ResponseRepository extends ServiceEntityRepository
         parent::__construct($registry, Response::class);
     }
 
-    // /**
-    //  * @return Response[] Returns an array of Response objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getOrCreateResponse(UserInterface $user, Question $question)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('r');
+        $qb->select('r')
+            ->where('r.user = :user')
+            ->andWhere('r.question = :question')
+            ->setParameters([
+                'user' => $user,
+                'question' => $question,
+            ])
+            ->setMaxResults(1)
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Response
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $responses = $qb->getQuery()->getResult();
+
+        // extract response or create new if none was found
+        if (!empty($responses)) {
+            $response = reset($responses);
+        } else {
+            $response = new Response($question);
+            $response->setUser($user);
+        }
+
+        return $response;
     }
-    */
 }

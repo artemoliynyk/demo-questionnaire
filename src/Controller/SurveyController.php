@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Form\ResponsePageType;
 use App\Repository\QuestionRepository;
+use App\Repository\ResponseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,34 +13,47 @@ use Symfony\Component\Routing\Annotation\Route;
 class SurveyController extends AbstractController
 {
     /**
+     * @var QuestionRepository
+     */
+    private $questionRepository;
+
+    /**
+     * @var ResponseRepository
+     */
+    private $responseRepository;
+
+    public function __construct(QuestionRepository $questionRepository, ResponseRepository $responseRepository)
+    {
+        $this->questionRepository = $questionRepository;
+        $this->responseRepository = $responseRepository;
+    }
+
+    /**
      * @Route("/survey", name="survey")
      */
-    public function survey(Request $request, QuestionRepository $questionRepository)
+    public function survey(Request $request)
     {
-        $questions = $questionRepository->findAll();
-        $question = reset($questions);
+        $entityManager = $this->getDoctrine()->getManager();
 
-//        $responses = new ArrayCollection();
-//        foreach ($questions as $question) {
-//            $response = new Response($question);
-//            $response->setUser($this->getUser());
-//            $responses->add($response);
-//        }
+        $questions = $this->questionRepository->getForPage(1);
 
-//        $form = $this->createForm(ResponseType::class, $response);
-        $form = $this->createForm(ResponsePageType::class, $questions);
-//        $form = $this->createForm(ResponsePageType::class, ['responses' => $responses]);
+        $responses = new ArrayCollection();
+        foreach ($questions as $question) {
+            $response = $this->responseRepository->getOrCreateResponse($this->getUser(), $question);
+            $responses->add($response);
+        }
+
+        $form = $this->createForm(ResponsePageType::class, ['responses' => $responses]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($question);
+
+                foreach ($responses as $response) {
+                    $entityManager->persist($response);
+                }
                 $entityManager->flush();
-
-                $this->addFlash('success', 'Entry created');
-
-                return $this->redirectToRoute('question_index');
+                return $this->redirectToRoute('survey');
             } else {
                 $this->addFlash('error', 'An error occurred, please check form values');
             }
@@ -49,4 +64,5 @@ class SurveyController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 }

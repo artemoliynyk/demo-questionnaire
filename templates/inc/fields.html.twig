@@ -26,3 +26,26 @@
         </div>
     </div>
 {% endblock %}
+
+{% block _response_page_responses_row %}
+    {% for response in form %}
+        {{ form_row(response) }}
+    {% endfor %}
+{% endblock %}
+
+{% block _response_page_responses_entry_row %}
+    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+{% endblock %}
+
+{% block _response_page_responses_entry_widget %}
+    <div class="card mb-5">
+        <div class="card-body">
+            <h5 class="card-title">
+                {{ form.vars.data.question.questionText }}
+            </h5>
+
+            {{ form_widget(form.answer) }}
+        </div>
+    </div>
+{% endblock %}

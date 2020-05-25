@@ -28,23 +28,12 @@ class QuestionRepository extends ServiceEntityRepository
 
         $qb = $this->createQueryBuilder('q');
 
-        $qb
+        return $qb->select('q')
             ->setMaxResults(5)
+            ->setFirstResult(1)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Question
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

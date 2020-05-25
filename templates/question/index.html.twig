@@ -7,7 +7,9 @@
         <div class="col">
             <h1>Questions</h1>
 
-            <a class="float-right btn btn-success" href="{{ url('question_new') }}"><i class="fa fa-plus"></i> Add question</a>
+            {% if 10 < questions|length %}
+                <a class="float-right btn btn-success" href="{{ url('question_new') }}"><i class="fa fa-plus"></i> Add question</a>
+            {% endif %}
 
             <div class="clearfix"></div>
             <br>
