@@ -100,7 +100,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="question_delete", methods={"DELETE"})
+     * @Route("/question/{id}/delete", name="question_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Question $question): Response
     {
