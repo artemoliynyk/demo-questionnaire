@@ -43,7 +43,6 @@ task('deploy', [
     'deploy:writable',
     'deploy:cache:clear',
     'deploy:cache:warmup',
-    'deploy:doctrine:fixtures',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',
@@ -65,3 +64,5 @@ after('deploy:failed', 'deploy:unlock');
 
 // Migrate database before symlink new release.
 before('deploy:symlink', 'database:migrate');
+
+after('database:migrate', 'deploy:doctrine:fixtures');
