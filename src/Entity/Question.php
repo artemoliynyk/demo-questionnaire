@@ -108,8 +108,7 @@ class Question
                 ->atPath('answers')
                 ->addViolation()
             ;
-        }
-        elseif ( 6 < $this->getAnswers()->count()) {
+        } elseif (6 < $this->getAnswers()->count()) {
             $context->buildViolation('Only 6 answers are allowed')
                 ->atPath('answers')
                 ->addViolation()

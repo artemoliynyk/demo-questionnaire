@@ -21,27 +21,27 @@ class Response
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="responses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="responses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $question;
 
     /**
      * @Assert\NotNull()
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Answer", inversedBy="responses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $answer;
 
     public function __construct(?Question $question = null)
     {
-        if($question instanceof Question) {
+        if ($question instanceof Question) {
             $this->setQuestion($question);
         }
     }

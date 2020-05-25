@@ -19,7 +19,7 @@ class ResponseAverage
 
     /**
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="responseAverages")
-     * @ORM\JoinColumn(nullable=false, unique=true)
+     * @ORM\JoinColumn(nullable=false, unique=true, onDelete="CASCADE")
      */
     private $question;
 
