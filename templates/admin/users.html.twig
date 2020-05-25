@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Question index{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <h1>User list</h1>
+            <div>
+                Registered users who did not fill out the survey.
+            </div>
+            <br>
+
+            {% if users is not empty %}
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.fullname }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ user.admin ? 'Admin' : 'User' }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="alert alert-primary">No entries found</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

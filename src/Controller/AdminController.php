@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Question;
 use App\Form\QuestionType;
 use App\Repository\QuestionRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,13 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/question")
+ * @Route("/admin")
  * @IsGranted("ROLE_ADMIN")
  */
-class QuestionController extends AbstractController
+class AdminController extends AbstractController
 {
     /**
-     * @Route("/", name="question_index", methods={"GET"})
+     * @Route("/question/", name="question_index", methods={"GET"})
      */
     public function index(QuestionRepository $questionRepository): Response
     {
@@ -34,7 +35,7 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="question_new", methods={"GET","POST"})
+     * @Route("/question/new", name="question_new", methods={"GET","POST"})
      */
     public function create(Request $request): Response
     {
@@ -63,7 +64,7 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="question_show", methods={"GET"})
+     * @Route("/question/{id}", name="question_show", methods={"GET"})
      */
     public function show(Question $question): Response
     {
@@ -73,7 +74,7 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="question_edit", methods={"GET","POST"})
+     * @Route("/question/{id}/edit", name="question_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Question $question): Response
     {
@@ -110,5 +111,17 @@ class QuestionController extends AbstractController
         }
 
         return $this->redirectToRoute('question_index');
+    }
+
+    /**
+     * @Route("/users", name="user_list")
+     */
+    public function usersListAction(Request $request, UserRepository $userRepository): Response
+    {
+        $users = $userRepository->getUserNotCompleted();
+
+        return $this->render('admin/users.html.twig', [
+            'users' => $users,
+        ]);
     }
 }

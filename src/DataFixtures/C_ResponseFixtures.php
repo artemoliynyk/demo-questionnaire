@@ -17,6 +17,7 @@ class C_ResponseFixtures extends Fixture
         /** @var UserRepository $questionRepo */
         $userRepo = $manager->getRepository(User::class);
         $users = $userRepo->findAll();
+        $users = array_slice($users, 1, 30);
 
         /** @var QuestionRepository $questionRepo */
         $questionRepo = $manager->getRepository(Question::class);
@@ -25,7 +26,7 @@ class C_ResponseFixtures extends Fixture
         foreach ($users as $user) {
             foreach ($questions as $question) {
                 $answersCnt = $question->getAnswers()->count();
-                $answer = $question->getAnswers()->get(rand(0, $answersCnt-1));
+                $answer = $question->getAnswers()->get(rand(0, $answersCnt - 1));
 
                 $response = new Response($question);
                 $response->setUser($user);

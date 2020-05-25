@@ -91,7 +91,7 @@ class B_UserFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         // create users
-        for ($i = 1; $i <= 25; $i++) {
+        for ($i = 1; $i <= 50; $i++) {
             $user = new User();
 
             $firstname = $this->firstnames[array_rand($this->firstnames, 1)];
