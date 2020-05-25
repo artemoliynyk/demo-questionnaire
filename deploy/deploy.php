@@ -43,6 +43,7 @@ task('deploy', [
     'deploy:writable',
     'deploy:cache:clear',
     'deploy:cache:warmup',
+    'deploy:doctrine:fixtures',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',
@@ -51,6 +52,12 @@ task('deploy', [
 task('deploy:yarn', function () {
     writeln(run('cd {{release_path}}; yarn install'));
     writeln(run('cd {{release_path}}; yarn encore prod'));
+});
+
+task('deploy:doctrine:fixtures', function () {
+    writeln(
+        run('{{bin/php}} {{bin/console}} doctrine:fixtures:load -n')
+    );
 });
 
 // [Optional] if deploy fails automatically unlock.
