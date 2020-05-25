@@ -38,7 +38,7 @@ class Question
     private $responses;
 
     /**
-     * @ORM\OneToMany(targetEntity=ResponseAverage::class, mappedBy="question")
+     * @ORM\OneToMany(targetEntity=ResponseAverage::class, mappedBy="question", orphanRemoval=true)
      */
     private $responseAverages;
 
