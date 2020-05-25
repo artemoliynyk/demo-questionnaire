@@ -34,16 +34,25 @@ class ResponseRepository extends ServiceEntityRepository
             ->setMaxResults(1)
         ;
 
-        $responses = $qb->getQuery()->getResult();
-
-        // extract response or create new if none was found
-        if (!empty($responses)) {
-            $response = reset($responses);
-        } else {
-            $response = new Response($question);
-            $response->setUser($user);
-        }
+        $result = $qb->getQuery()->getOneOrNullResult();
+        $response = $result ?? new Response($question);
+        $response->setUser($user);
 
         return $response;
+    }
+
+    public function getQuestionAverages(Question $question)
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select($qb->expr()->avg('a.weight'))
+            ->leftJoin('r.answer', 'a')
+            ->where('r.question = :question')
+            ->setParameters([
+                'question' => $question,
+            ])
+            ->setMaxResults(1)
+        ;
+
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }

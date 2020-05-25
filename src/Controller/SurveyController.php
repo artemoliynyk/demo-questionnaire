@@ -30,12 +30,13 @@ class SurveyController extends AbstractController
 
     /**
      * @Route("/survey", name="survey")
+     * @Route("/survey/{page}", name="survey", requirements={"page"="1|2"})
      */
-    public function survey(Request $request)
+    public function survey(Request $request, $page = 1)
     {
         $entityManager = $this->getDoctrine()->getManager();
 
-        $questions = $this->questionRepository->getForPage(1);
+        $questions = $this->questionRepository->getForPage($page);
 
         $responses = new ArrayCollection();
         foreach ($questions as $question) {
@@ -53,7 +54,12 @@ class SurveyController extends AbstractController
                     $entityManager->persist($response);
                 }
                 $entityManager->flush();
-                return $this->redirectToRoute('survey');
+
+                if ($page == 1) {
+                    return $this->redirectToRoute('survey', ['page' => 2]);
+                } else {
+                    return $this->redirectToRoute('survey_results');
+                }
             } else {
                 $this->addFlash('error', 'An error occurred, please check form values');
             }
@@ -62,6 +68,17 @@ class SurveyController extends AbstractController
         return $this->render('survey/index.html.twig', [
             'questions' => $questions,
             'form' => $form->createView(),
+            'page' => $page,
+        ]);
+    }
+
+    /**
+     * @Route("/survey-results", name="survey_results")
+     */
+    public function resultsAction()
+    {
+        return $this->render('survey/results.html.twig', [
+//            'form' => $form->createView(),
         ]);
     }
 

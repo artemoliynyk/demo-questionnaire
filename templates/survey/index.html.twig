@@ -7,11 +7,12 @@
 {% block body %}
     <div class="row">
         <div class="col">
-            <h1>Survey</h1>
+            <h1>Survey page {{ page }}</h1>
 
             {{ form_start(form) }}
             {{ form_row(form.responses) }}
-            <button type="submit">OK</button>
+
+            <button class="btn btn-success" type="submit">Submit</button>
             {{ form_end(form) }}
         </div>
     </div>

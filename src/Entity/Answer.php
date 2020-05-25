@@ -54,7 +54,7 @@ class Answer
 
     public function __toString()
     {
-        return $this->getAnswerText();
+        return $this->getAnswerText() . " ({$this->getWeight()})";
     }
 
     public function __construct()

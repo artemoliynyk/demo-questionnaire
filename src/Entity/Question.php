@@ -37,10 +37,16 @@ class Question
      */
     private $responses;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ResponseAverage::class, mappedBy="question")
+     */
+    private $responseAverages;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
         $this->responses = new ArrayCollection();
+        $this->responseAverages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,5 +123,36 @@ class Question
     public function getResponses(): Collection
     {
         return $this->responses;
+    }
+
+    /**
+     * @return Collection|ResponseAverage[]
+     */
+    public function getResponseAverages(): Collection
+    {
+        return $this->responseAverages;
+    }
+
+    public function addResponseAverage(ResponseAverage $responseAverage): self
+    {
+        if (!$this->responseAverages->contains($responseAverage)) {
+            $this->responseAverages[] = $responseAverage;
+            $responseAverage->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponseAverage(ResponseAverage $responseAverage): self
+    {
+        if ($this->responseAverages->contains($responseAverage)) {
+            $this->responseAverages->removeElement($responseAverage);
+            // set the owning side to null (unless already changed)
+            if ($responseAverage->getQuestion() === $this) {
+                $responseAverage->setQuestion(null);
+            }
+        }
+
+        return $this;
     }
 }
