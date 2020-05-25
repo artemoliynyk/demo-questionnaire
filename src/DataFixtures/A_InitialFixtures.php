@@ -8,7 +8,7 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class InitialFixtures extends Fixture
+class A_InitialFixtures extends Fixture
 {
     private $questions = [
         "What is your favorite product?",
